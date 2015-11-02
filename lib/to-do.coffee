@@ -39,7 +39,7 @@ module.exports = ToDo =
         todoText = todoText.replace(/\/\//, "")
         allTodos.push 'Line '+ln + ': ' + todoText
 
-    createTodoList(x, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
+    createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
     if @modalPanel.isVisible()
       @modalPanel.hide()
