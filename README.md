@@ -1,4 +1,4 @@
-# to-do package
+# TODO for Atom
 
 Introducing TODOs for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.
 
