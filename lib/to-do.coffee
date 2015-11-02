@@ -36,6 +36,9 @@ module.exports = ToDo =
         todoText = todoText.replace(/TODO:/, "")
         todoText = todoText.replace(/^\s+|\s+$/, "")
         todoText = todoText.replace(/#/, "")
+        todoText = todoText.replace(/\/*/, "")
+        todoText = todoText.replace(/<!--/, "")
+        todoText = todoText.replace(/-->/, "")
         todoText = todoText.replace(/\/\//, "")
         allTodos.push 'Line '+ln + ': ' + todoText
 
