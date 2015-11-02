@@ -1,0 +1,18 @@
+{
+  "name": "to-do",
+  "main": "./lib/to-do",
+  "version": "0.0.0",
+  "description": "// TODO: Organize your TODOs",
+  "keywords": [
+  ],
+  "activationCommands": {
+    "atom-workspace": "to-do:toggle"
+  },
+  "repository": "https://github.com/atom/to-do",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
