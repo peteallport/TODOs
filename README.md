@@ -1,5 +1,5 @@
 # TODO for Atom
 
-Introducing TODOs for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.
+Introducing TODO for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.
 
 ![A screenshot of your package](http://i.imgur.com/5u5cGji.png)
