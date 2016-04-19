@@ -1,6 +1,6 @@
 {
   "name": "TODO",
   "tagline": "TODO package for Atom",
-  "body": "# TODO for Atom\r\n\r\nIntroducing TODO for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.\r\n![TODO Atom screenshot](http://i.imgur.com/5u5cGji.png)\r\n",
+  "body": "# TODOs for Atom\r\n\r\n**Official GitHub page:** http://peteallport.github.io/TODOs/\r\n\r\nIntroducing TODOS for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.\r\n\r\n### Installation\r\n`apm install TODOs`\r\n\r\nor search for \"TODOs\" in Atom\r\n\r\n\r\n![A screenshot of your package](http://i.imgur.com/5u5cGji.png)\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
