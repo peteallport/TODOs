@@ -1,4 +1,4 @@
-ToDo = require '../lib/to-do'
+ToDo = require '../lib/todos'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
@@ -10,30 +10,30 @@ describe "ToDo", ->
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
-    activationPromise = atom.packages.activatePackage('to-do')
+    activationPromise = atom.packages.activatePackage('todos')
 
-  describe "when the to-do:toggle event is triggered", ->
+  describe "when the todos:toggle event is triggered", ->
     it "hides and shows the modal panel", ->
       # Before the activation event the view is not on the DOM, and no panel
       # has been created
-      expect(workspaceElement.querySelector('.to-do')).not.toExist()
+      expect(workspaceElement.querySelector('.todos')).not.toExist()
 
       # This is an activation event, triggering it will cause the package to be
       # activated.
-      atom.commands.dispatch workspaceElement, 'to-do:toggle'
+      atom.commands.dispatch workspaceElement, 'todos:toggle'
 
       waitsForPromise ->
         activationPromise
 
       runs ->
-        expect(workspaceElement.querySelector('.to-do')).toExist()
+        expect(workspaceElement.querySelector('.todos')).toExist()
 
-        toDoElement = workspaceElement.querySelector('.to-do')
+        toDoElement = workspaceElement.querySelector('.todos')
         expect(toDoElement).toExist()
 
         toDoPanel = atom.workspace.panelForItem(toDoElement)
         expect(toDoPanel.isVisible()).toBe true
-        atom.commands.dispatch workspaceElement, 'to-do:toggle'
+        atom.commands.dispatch workspaceElement, 'todos:toggle'
         expect(toDoPanel.isVisible()).toBe false
 
     it "hides and shows the view", ->
@@ -45,18 +45,18 @@ describe "ToDo", ->
       # workspaceElement to the DOM are generally slower than those off DOM.
       jasmine.attachToDOM(workspaceElement)
 
-      expect(workspaceElement.querySelector('.to-do')).not.toExist()
+      expect(workspaceElement.querySelector('.todos')).not.toExist()
 
       # This is an activation event, triggering it causes the package to be
       # activated.
-      atom.commands.dispatch workspaceElement, 'to-do:toggle'
+      atom.commands.dispatch workspaceElement, 'todos:toggle'
 
       waitsForPromise ->
         activationPromise
 
       runs ->
         # Now we can test for view visibility
-        toDoElement = workspaceElement.querySelector('.to-do')
+        toDoElement = workspaceElement.querySelector('.todos')
         expect(toDoElement).toBeVisible()
-        atom.commands.dispatch workspaceElement, 'to-do:toggle'
+        atom.commands.dispatch workspaceElement, 'todos:toggle'
         expect(toDoElement).not.toBeVisible()

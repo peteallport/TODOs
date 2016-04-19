@@ -14,7 +14,7 @@
     "organize"
   ],
   "activationCommands": {
-    "atom-workspace": "to-do:toggle"
+    "atom-workspace": "todos:toggle"
   },
   "repository": "https://github.com/peteallport/TODOs",
   "license": "MIT",

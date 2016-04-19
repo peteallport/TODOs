@@ -14,7 +14,7 @@ module.exports = ToDo =
     @subscriptions = new CompositeDisposable
     # TODO: refine code to look fucking sexy
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'to-do:toggle': => @toggle()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'todos:toggle': => @toggle()
 
     subscription = atom.workspace.getActiveTextEditor().onDidSave (change) ->
       #console.log 'titties'

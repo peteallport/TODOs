@@ -3,18 +3,18 @@
   'atom-text-editor': [
     {
       'label': 'Toggle TODOs'
-      'command': 'to-do:toggle'
+      'command': 'todos:toggle'
     }
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'to-do'
+      'label': 'TODOs'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'to-do:toggle'
+          'label': 'View TODOs'
+          'command': 'todos:toggle'
         }
       ]
     ]

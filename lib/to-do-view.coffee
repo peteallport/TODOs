@@ -3,7 +3,7 @@ class ToDoView
   constructor: (serializedState) ->
     # Create root element
     @element = document.createElement('div')
-    @element.classList.add('to-do')
+    @element.classList.add('todos')
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
