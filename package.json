@@ -16,7 +16,7 @@
   "activationCommands": {
     "atom-workspace": "to-do:toggle"
   },
-  "repository": "https://github.com/peteallport/TODO",
+  "repository": "https://github.com/peteallport/TODOs",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
