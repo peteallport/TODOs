@@ -1,13 +1,13 @@
-# TODO for Atom
+# TODOs for Atom
 
-**Official GitHub page:** http://peteallport.github.io/TODO/
+**Official GitHub page:** http://peteallport.github.io/TODOs/
 
-Introducing TODO for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.
+Introducing TODOS for Atom. Organize your //TODOs and see them listed by pressing ctrl-alt-T.
 
 ### Installation
-`apm install to-do`
+`apm install todos`
 
-or search for "to-do" in Atom
+or search for "todos" in Atom
 
 
 ![A screenshot of your package](http://i.imgur.com/5u5cGji.png)

@@ -18,7 +18,7 @@ class ToDoView
   setTodos: (todoItem) ->
     @element.textContent = ""
     title = document.createElement('div')
-    title.textContent = "Here are the TODOs for this file:"
+    title.textContent = "TODOs in this file ("+todoItem.length+"):"
     title.classList.add('title')
     @element.appendChild(title)
     master = document.createElement('div')

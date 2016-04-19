@@ -1,9 +1,18 @@
 {
-  "name": "to-do",
+  "name": "TODOs",
   "main": "./lib/to-do",
-  "version": "0.2.0",
-  "description": "// TODO: Organize your TODOs",
-  "keywords": [],
+  "version": "0.2.1",
+  "description": "// TODOs: Organize your TODOs",
+  "keywords": [
+    "todo",
+    "to-do",
+    "to do",
+    "todos",
+    "task",
+    "check",
+    "comment",
+    "organize"
+  ],
   "activationCommands": {
     "atom-workspace": "to-do:toggle"
   },
