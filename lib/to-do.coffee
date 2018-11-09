@@ -40,11 +40,14 @@ module.exports = ToDo =
 
         # get TODOs text
         todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
-        todoText = todoText.replace(/^\s+|\s+$/, "")
-        todoText = todoText.replace(/#/, "")
-        todoText = todoText.replace(/<!--/, "")
-        todoText = todoText.replace(/-->/, "")
-        todoText = todoText.replace(/\/\//, "")
+        todoText = todoText.replace(/^\s+|\s+$/, "")       # strip spaces
+        todoText = todoText.replace(/^#+/, "")             # hashtag comment (Python, CoffeeScript, shell, etc...)
+        todoText = todoText.replace(/^\"\"\"|\"\"\"$/, "") # Python multiline comment 1
+        todoText = todoText.replace(/^\'\'\'|\'\'\'$/, "") # Python multiline comment 2
+        todoText = todoText.replace(/^\/\//, "")           # C++ single line comment
+        todoText = todoText.replace(/^\/\*|\*\/$/, "")     # C++ multiline comment
+        todoText = todoText.replace(/^<!--|-->$/, "")      # html comment
+        todoText = todoText.replace(/^\s+|\s+$/, "")       # strip spaces
 
         # push TODOs type, line and text
         allTodos.push todoType + ': ' + 'Line ' + ln + ': ' + todoText
