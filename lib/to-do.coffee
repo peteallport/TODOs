@@ -42,7 +42,6 @@ module.exports = ToDo =
         todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
         todoText = todoText.replace(/^\s+|\s+$/, "")
         todoText = todoText.replace(/#/, "")
-        todoText = todoText.replace(/\/*/, "")
         todoText = todoText.replace(/<!--/, "")
         todoText = todoText.replace(/-->/, "")
         todoText = todoText.replace(/\/\//, "")
