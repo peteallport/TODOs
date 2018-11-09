@@ -47,6 +47,7 @@ module.exports = ToDo =
         todoText = todoText.replace(/^\/\//, "")          # C++ single line comment
         todoText = todoText.replace(/(^\/\*|\*\/$)/g, "") # C++ multiline comment
         todoText = todoText.replace(/(^<!--|-->$)/g, "")  # html comment
+        todoText = todoText.replace(/^--/, "")            # Haskell comment
         todoText = todoText.replace(/(^\s+|\s+)$/g, "")   # strip spaces
 
         # push TODOs type, line and text
