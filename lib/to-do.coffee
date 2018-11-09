@@ -57,6 +57,9 @@ module.exports = ToDo =
     if @modalPanel.isVisible()
       @modalPanel.hide()
     else
+      # sort by type then line
+      allTodos.sort (a,b) ->
+        return (a > b)
       @toDoView.setTodos(allTodos)
       @modalPanel.show()
 
