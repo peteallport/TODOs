@@ -31,9 +31,9 @@ module.exports = ToDo =
     currentEditor = atom.workspace.getActiveTextEditor()
     allTodos = []
     createTodoList = (ln, todoText) ->
-      containsTODO = /TODO:/.test(todoText)
+      containsTODO = /(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/.test(todoText)
       if containsTODO
-        todoText = todoText.replace(/TODO:/, "")
+        todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
         todoText = todoText.replace(/^\s+|\s+$/, "")
         todoText = todoText.replace(/#/, "")
         todoText = todoText.replace(/\/*/, "")
