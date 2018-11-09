@@ -33,6 +33,8 @@ module.exports = ToDo =
     createTodoList = (ln, todoText) ->
       containsTODO = /(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/.test(todoText)
       if containsTODO
+        todoType = todoText.match(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/)[0]
+        todoType = todoType.replace(/[:;.,]$/, "")
         todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
         todoText = todoText.replace(/^\s+|\s+$/, "")
         todoText = todoText.replace(/#/, "")
@@ -40,7 +42,7 @@ module.exports = ToDo =
         todoText = todoText.replace(/<!--/, "")
         todoText = todoText.replace(/-->/, "")
         todoText = todoText.replace(/\/\//, "")
-        allTodos.push 'Line '+ln + ': ' + todoText
+        allTodos.push todoType + ': ' + 'Line ' + ln + ': ' + todoText
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
