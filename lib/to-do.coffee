@@ -31,10 +31,14 @@ module.exports = ToDo =
     currentEditor = atom.workspace.getActiveTextEditor()
     allTodos = []
     createTodoList = (ln, todoText) ->
+      # Search for all possible TODOs tags
       containsTODO = /(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/.test(todoText)
       if containsTODO
+        # get TODOs type
         todoType = todoText.match(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/)[0]
         todoType = todoType.replace(/[:;.,]$/, "")
+
+        # get TODOs text
         todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
         todoText = todoText.replace(/^\s+|\s+$/, "")
         todoText = todoText.replace(/#/, "")
@@ -42,6 +46,8 @@ module.exports = ToDo =
         todoText = todoText.replace(/<!--/, "")
         todoText = todoText.replace(/-->/, "")
         todoText = todoText.replace(/\/\//, "")
+
+        # push TODOs type, line and text
         allTodos.push todoType + ': ' + 'Line ' + ln + ': ' + todoText
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
