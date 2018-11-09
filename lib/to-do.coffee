@@ -29,8 +29,25 @@ module.exports = ToDo =
 
   toggle: ->
     currentEditor = atom.workspace.getActiveTextEditor()
+    currentScope = currentEditor.getRootScopeDescriptor().toString()
     allTodos = []
+
+    if currentScope in [".source.gfm", ".source.html", ".source.css", ".source.css.less"]
+      reComment = ["^\s*<!--.+-->\s*$", "<!--", "-->"]
+    else if currentScope in [".source.python", ".source.coffee", ".source.shell", ".source.yaml"]
+      reComment = ["^#.+", "#", ""]
+    else if currentScope == ".source.haskell"
+      reComment = ["^--.+", "--", ""]
+    else if currentScope in [".source.cpp", ".source.c", ".source.js", ".source.go"]
+      reComment = ["^//.+", "//", ""]
+    else
+      reComment = ["", "", ""]
+
     createTodoList = (ln, todoText) ->
+      # check if line is comment
+      if todoText and todoText.search(reComment[0]) == -1
+        return
+
       # Search for all possible TODOs tags
       containsTODO = /(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/.test(todoText)
       if containsTODO
@@ -40,17 +57,13 @@ module.exports = ToDo =
 
         # get TODOs text
         todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
-        todoText = todoText.replace(/(^\s+|\s+$)/g, "")   # strip spaces
-        todoText = todoText.replace(/^#+/, "")            # hashtag comment (Python, CoffeeScript, shell, etc...)
-        todoText = todoText.replace(/(^"""|"""$)/g, "")   # Python multiline comment 1
-        todoText = todoText.replace(/(^'''|'''$)/g, "")   # Python multiline comment 2
-        todoText = todoText.replace(/^\/\//, "")          # C++ single line comment
-        todoText = todoText.replace(/(^\/\*|\*\/$)/g, "") # C++ multiline comment
-        todoText = todoText.replace(/(^<!--|-->$)/g, "")  # html comment
-        todoText = todoText.replace(/^--/, "")            # Haskell comment
-        todoText = todoText.replace(/(^\s+|\s+)$/g, "")   # strip spaces
 
-        # push TODOs type, line and text
+        # remove comment keywords and strip
+        todoText = todoText.replace(/(^\s+|\s+)$/g, "")
+        todoText = todoText.replace(reComment[1], "")
+        todoText = todoText.replace(reComment[2], "")
+        todoText = todoText.replace(/(^\s+|\s+)$/g, "")
+
         allTodos.push todoType + ': ' + 'Line ' + ln + ': ' + todoText
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
