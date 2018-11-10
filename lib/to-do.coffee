@@ -47,6 +47,10 @@ module.exports = ToDo =
         ['--', '']
       when ".source.php", ".text.html.php"
         ['(#|//|<!--)', '(|-->)']
+      when ".source.rust"
+        ['//', '']
+      when ".source.ruby"
+        ['(=begin|#)', '(=end|)']
       when ".source.shell"
         ['#', '']
       else
