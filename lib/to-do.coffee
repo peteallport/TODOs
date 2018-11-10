@@ -40,7 +40,7 @@ module.exports = ToDo =
       when ".source.python", ".source.coffee", ".source.shell", ".source.yaml"
         ["#", ""]
       when ".source.cpp", ".source.c", ".source.js", ".source.go"
-        ["//", ""]
+        ["(//|/\\*)", "(|\\*/)"]
       when ".source.haskell"
         ["--", ""]
       when ".source.php", ".text.html.php"
