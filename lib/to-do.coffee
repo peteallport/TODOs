@@ -49,9 +49,7 @@ module.exports = ToDo =
         ['(#|//|<!--)', '(|-->)']
       when ".source.rust"
         ['//', '']
-      when ".source.ruby"
-        ['(=begin|#)', '(=end|)']
-      when ".source.shell"
+      when ".source.shell", ".source.ruby"
         ['#', '']
       else
         ['.*', '.*']
