@@ -57,11 +57,11 @@ module.exports = ToDo =
     createTodoList = (ln, todoText) ->
       # Search for all possible TODOs tags
       if ///^\s*#{reComment[0]}\s*#{todoTags}[:;.,]?.+#{reComment[1]}\s*$///.test(todoText)
+        # get TODO index
+        idx = todoText.search(///#{todoTags}///)
+
         # get TODO type
         todoType = todoText.match(///#{todoTags}///)[0]
-
-        # get TODO index
-        todoIndex = todoText.search(///#{todoTags}///) + todoType.length
 
         # strip and remove comment keywords
         todoText = todoText.replace(/(^\s+|\s+$)/g, "")
@@ -71,7 +71,7 @@ module.exports = ToDo =
         # get TODO text
         todoText = todoText.replace(///\s*#{todoTags}[:;.,]?\s*///, "") unless reComment[0] == ".*"
 
-        allTodos.push [ln, todoIndex, "#{todoType}: Line #{ln}: #{todoText}"]
+        allTodos.push [ln, idx, todoType, todoText]
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
@@ -80,7 +80,7 @@ module.exports = ToDo =
     else
       # sort by type then line
       allTodos.sort (a,b) ->
-        return (a[2] > b[2])
+        return (a[2] + a[0] > b[2] + b[0])
       @toDoView.setTodos(allTodos)
       @modalPanel.show()
 
