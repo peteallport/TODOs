@@ -26,17 +26,14 @@ class ToDoView
 
     runList = (text) ->
       message = document.createElement('div')
-      textButton = document.createElement('span')
+      todoText = document.createElement('span')
 
-      gotoTodo = () ->
-        currentEditor.setCursorBufferPosition([text[0]-1, text[1]+1])
-
-      textButton.type = 'button'
-      textButton.textContent = text[2]
-      textButton.onclick = gotoTodo
+      message.type = 'button'
+      message.onclick = gotoTodo = () -> currentEditor.setCursorBufferPosition([text[0]-1, text[1]+text[2].length])
+      todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
 
       message.classList.add('todoItem')
-      message.appendChild(textButton)
+      message.appendChild(todoText)
 
       master.appendChild(message)
 
