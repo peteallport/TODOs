@@ -37,9 +37,9 @@ module.exports = ToDo =
     reComment = switch currentScope
       when ".source.gfm", ".source.html", ".source.css", ".source.css.less"
         ['<!--', '-->']
-      when ".source.python"
+      when ".source.python", ".source.yaml"
         ['(#|"""|\'\'\')', '(|"""|\'\'\')']
-      when ".source.coffee", ".source.shell", ".source.yaml"
+      when ".source.coffee", ".source.shell"
         ['#{1,3}', '#{0,3}']
       when ".source.cpp", ".source.c", ".source.js", ".source.go"
         ['(//|/\\*)', '(|\\*/)']
