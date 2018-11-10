@@ -57,18 +57,21 @@ module.exports = ToDo =
     createTodoList = (ln, todoText) ->
       # Search for all possible TODOs tags
       if ///^\s*#{reComment[0]}\s*#{todoTags}[:;.,]?.+#{reComment[1]}\s*$///.test(todoText)
+        # get TODO type
+        todoType = todoText.match(///#{todoTags}///)[0]
+
+        # get TODO index
+        todoIndex = todoText.search(///#{todoTags}///) + todoType.length
+
         # strip and remove comment keywords
         todoText = todoText.replace(/(^\s+|\s+$)/g, "")
         todoText = todoText.replace(///^#{reComment[0]}\s*///, "") unless reComment[0] == ".*"
         todoText = todoText.replace(///\s*#{reComment[1]}$///, "") unless reComment[1] == ".*"
 
-        # get TODO type
-        todoType = todoText.match(///#{todoTags}///)[0]
-
         # get TODO text
         todoText = todoText.replace(///\s*#{todoTags}[:;.,]?\s*///, "") unless reComment[0] == ".*"
 
-        allTodos.push [ln, "#{todoType}: Line #{ln}: #{todoText}"]
+        allTodos.push [ln, todoIndex, "#{todoType}: Line #{ln}: #{todoText}"]
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
@@ -77,7 +80,7 @@ module.exports = ToDo =
     else
       # sort by type then line
       allTodos.sort (a,b) ->
-        return (a[1] > b[1])
+        return (a[2] > b[2])
       @toDoView.setTodos(allTodos)
       @modalPanel.show()
 

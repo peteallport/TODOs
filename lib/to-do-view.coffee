@@ -29,10 +29,10 @@ class ToDoView
       textButton = document.createElement('span')
 
       gotoTodo = () ->
-        currentEditor.setCursorBufferPosition([text[0], 0])
+        currentEditor.setCursorBufferPosition([text[0]-1, text[1]+1])
 
       textButton.type = 'button'
-      textButton.textContent = text[1]
+      textButton.textContent = text[2]
       textButton.onclick = gotoTodo
 
       message.classList.add('todoItem')
