@@ -39,7 +39,7 @@ module.exports = ToDo =
         ['<!--', '-->']
       when ".source.python", ".source.yaml"
         ['(#|"""|\'\'\')', '(|"""|\'\'\')']
-      when ".source.coffee", ".source.shell"
+      when ".source.coffee"
         ['#{1,3}', '#{0,3}']
       when ".source.cpp", ".source.c", ".source.js", ".source.go"
         ['(//|/\\*)', '(|\\*/)']
@@ -47,6 +47,8 @@ module.exports = ToDo =
         ['--', '']
       when ".source.php", ".text.html.php"
         ['(#|//|<!--)', '(|-->)']
+      when ".source.shell"
+        ['#', '']
       else
         ['.*', '.*']
 
