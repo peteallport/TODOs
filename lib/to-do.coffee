@@ -30,41 +30,36 @@ module.exports = ToDo =
   toggle: ->
     currentEditor = atom.workspace.getActiveTextEditor()
     currentScope = currentEditor.getRootScopeDescriptor().toString()
+    todoTags = "(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
     allTodos = []
 
+    # declare opening and closing comment keywords
     if currentScope in [".source.gfm", ".source.html", ".source.css", ".source.css.less"]
-      reComment = ["^\s*<!--.+-->\s*$", "<!--", "-->"]
+      reComment = ["<!--", "-->"]
     else if currentScope in [".source.python", ".source.coffee", ".source.shell", ".source.yaml"]
-      reComment = ["^#.+", "#", ""]
+      reComment = ["#", ""]
     else if currentScope == ".source.haskell"
-      reComment = ["^--.+", "--", ""]
+      reComment = ["--", ""]
     else if currentScope in [".source.cpp", ".source.c", ".source.js", ".source.go"]
-      reComment = ["^//.+", "//", ""]
+      reComment = ["//", ""]
     else
-      reComment = ["", "", ""]
+      reComment = [".*", ".*"]
 
     createTodoList = (ln, todoText) ->
-      # check if line is comment
-      if todoText and todoText.search(reComment[0]) == -1
-        return
-
       # Search for all possible TODOs tags
-      containsTODO = /(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/.test(todoText)
-      if containsTODO
-        # get TODOs type
-        todoType = todoText.match(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/)[0]
-        todoType = todoType.replace(/[:;.,]$/, "")
+      if ///^\s*#{reComment[0]}\s*#{todoTags}[:;.,]?.+#{reComment[1]}\s*$///.test(todoText)
+        # strip and remove comment keywords
+        todoText = todoText.replace(/(^\s+|\s+$)/g, "")
+        todoText = todoText.replace(///^#{reComment[0]}\s*///, "") unless reComment[0] == ".*"
+        todoText = todoText.replace(///\s*#{reComment[1]}$///, "") unless reComment[1] == ".*"
 
-        # get TODOs text
-        todoText = todoText.replace(/(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)[:;.,]?/, "")
+        # get TODO type
+        todoType = todoText.match(///#{todoTags}///)[0]
 
-        # remove comment keywords and strip
-        todoText = todoText.replace(/(^\s+|\s+)$/g, "")
-        todoText = todoText.replace(reComment[1], "")
-        todoText = todoText.replace(reComment[2], "")
-        todoText = todoText.replace(/(^\s+|\s+)$/g, "")
+        # get TODO text
+        todoText = todoText.replace(///\s*#{todoTags}[:;.,]?\s*///, "") unless reComment[0] == ".*"
 
-        allTodos.push todoType + ': ' + 'Line ' + ln + ': ' + todoText
+        allTodos.push "#{todoType}: Line #{ln}: #{todoText}"
 
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
