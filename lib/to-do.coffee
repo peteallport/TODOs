@@ -36,17 +36,19 @@ module.exports = ToDo =
     # declare opening and closing comment keywords
     reComment = switch currentScope
       when ".source.gfm", ".source.html", ".source.css", ".source.css.less"
-        ["<!--", "-->"]
-      when ".source.python", ".source.coffee", ".source.shell", ".source.yaml"
-        ["#", ""]
+        ['<!--', '-->']
+      when ".source.python"
+        ['(#|"""|\'\'\')', '(|"""|\'\'\')']
+      when ".source.coffee", ".source.shell", ".source.yaml"
+        ['#', '']
       when ".source.cpp", ".source.c", ".source.js", ".source.go"
-        ["(//|/\\*)", "(|\\*/)"]
+        ['(//|/\\*)', '(|\\*/)']
       when ".source.haskell"
-        ["--", ""]
+        ['--', '']
       when ".source.php", ".text.html.php"
-        ["(#|//|<!--)", "(|-->)"]
+        ['(#|//|<!--)', '(|-->)']
       else
-        [".*", ".*"]
+        ['.*', '.*']
 
     createTodoList = (ln, todoText) ->
       # Search for all possible TODOs tags
