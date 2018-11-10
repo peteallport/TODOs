@@ -42,6 +42,8 @@ module.exports = ToDo =
       reComment = ["--", ""]
     else if currentScope in [".source.cpp", ".source.c", ".source.js", ".source.go"]
       reComment = ["//", ""]
+    else if currentScope in ['.source.php', '.text.html.php']
+      reComment = ["(#|//|<!--)", "(|-->)"]
     else
       reComment = [".*", ".*"]
 
