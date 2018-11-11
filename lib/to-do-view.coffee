@@ -30,17 +30,15 @@ class ToDoView
 
       message.type = 'button'
       message.onclick = () ->
-        cursor = currentEditor.getCursorBufferPosition()
         currentEditor.setCursorBufferPosition([text[0]-1, text[1]+text[2].length])
-        if cursor.row == text[0] - 1
-          currentEditor.moveLeft(text[2].length)
-          tag = currentEditor.getTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]])
-          if tag == 'DONE:'
-            currentEditor.setTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]], '')
-            todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
-          else
-            currentEditor.insertText('DONE:')
-            todoText.textContent = "DONE:#{text[2]}: Line #{text[0]}: #{text[3]}"
+      message.ondblclick = () ->
+        currentEditor.setCursorBufferPosition([text[0]-1, text[1]])
+        if currentEditor.getTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]]) == 'DONE:'
+          currentEditor.setTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]], '')
+          todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
+        else
+          currentEditor.insertText('DONE:')
+          todoText.textContent = "DONE:#{text[2]}: Line #{text[0]}: #{text[3]}"
 
       todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
 
