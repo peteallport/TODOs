@@ -30,7 +30,7 @@ class ToDoView
 
       message.type = 'button'
       message.onclick = () ->
-        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]+todo[2].length])
+        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]+todo[2].length+1])
       message.ondblclick = () ->
         currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]])
         if currentEditor.getTextInBufferRange([[todo[0]-1, todo[1]], [todo[0]-1, todo[1]+5]]) == 'DONE:'
