@@ -24,23 +24,23 @@ class ToDoView
     master = document.createElement('div')
     currentEditor = atom.workspace.getActiveTextEditor()
 
-    runList = (text) ->
+    runList = (todo) ->
       message = document.createElement('div')
       todoText = document.createElement('span')
 
       message.type = 'button'
       message.onclick = () ->
-        currentEditor.setCursorBufferPosition([text[0]-1, text[1]+text[2].length])
+        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]+todo[2].length])
       message.ondblclick = () ->
-        currentEditor.setCursorBufferPosition([text[0]-1, text[1]])
-        if currentEditor.getTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]]) == 'DONE:'
-          currentEditor.setTextInBufferRange([[text[0]-1, text[1]], [text[0]-1, text[1]+5]], '')
-          todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
+        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]])
+        if currentEditor.getTextInBufferRange([[todo[0]-1, todo[1]], [todo[0]-1, todo[1]+5]]) == 'DONE:'
+          currentEditor.setTextInBufferRange([[todo[0]-1, todo[1]], [todo[0]-1, todo[1]+5]], '')
+          todoText.textContent = "#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
         else
           currentEditor.insertText('DONE:')
-          todoText.textContent = "DONE:#{text[2]}: Line #{text[0]}: #{text[3]}"
+          todoText.textContent = "DONE:#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
 
-      todoText.textContent = "#{text[2]}: Line #{text[0]}: #{text[3]}"
+      todoText.textContent = "#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
 
       message.classList.add('todoItem')
       message.appendChild(todoText)
