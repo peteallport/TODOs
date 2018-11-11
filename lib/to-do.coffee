@@ -30,7 +30,7 @@ module.exports = ToDo =
   toggle: ->
     currentEditor = atom.workspace.getActiveTextEditor()
     currentScope = currentEditor.getRootScopeDescriptor().toString()
-    todoTags = "(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
+    todoTags = "(DONE:|)(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
     allTodos = []
 
     # declare opening and closing comment keywords
