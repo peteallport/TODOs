@@ -62,7 +62,7 @@ module.exports = ToDo =
         return
 
       # Search for all possible TODOs tags
-      if ///#{todoTags}[:;.,].+///.test(todoText)
+      if ///#{todoTags}[:;.,]\s*[^\s]///.test(todoText)
         # Get TODO index
         idx = todoText.search(///#{todoTags}///)
 
