@@ -10,7 +10,7 @@ module.exports = ToDo =
     @toDoView = new ToDoView(state.toDoViewState)
     @modalPanel = atom.workspace.addModalPanel(item: @toDoView.getElement(), visible: false)
 
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
+    # Events subscribed to an atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
     # TODO: refine code to look fucking sexy
     # Register command that toggles this view
@@ -28,16 +28,17 @@ module.exports = ToDo =
     toDoViewState: @toDoView.serialize()
 
   toggle: ->
-    # close panel and exit if toggling it off
+    # Close panel and exit if toggling it off
     if @modalPanel.isVisible()
       @modalPanel.hide()
       return
 
+    # Get current editor and scope
     currentEditor = atom.workspace.getActiveTextEditor()
     currentScope = currentEditor.getRootScopeDescriptor().toString()
-    todoTags = "(DONE:|)(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
-    allTodos = []
 
+    # Create regex variables for TODO tags and block comments
+    todoTags = "(DONE:|)(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
     commentEnd = switch currentScope
       when ".source.gfm", ".source.html", ".source.css", ".source.css.less", ".source.php", ".text.html.php"
         '-->'
@@ -50,6 +51,9 @@ module.exports = ToDo =
       else
         ''
 
+    # Create array to contain TODOs
+    allTodos = []
+
     createTodoList = (ln, todoText) ->
       # Check if current line is not empty and is a comment
       if not todoText
@@ -59,27 +63,27 @@ module.exports = ToDo =
 
       # Search for all possible TODOs tags
       if ///#{todoTags}[:;.,].+///.test(todoText)
-        # get TODO index
+        # Get TODO index
         idx = todoText.search(///#{todoTags}///)
 
-        # get TODO type
+        # Get TODO type
         todoType = todoText.match(///#{todoTags}///)[0]
 
-        # strip and remove comment keywords
+        # Strip and remove comment keywords
         todoText = todoText.replace(/(^\s+|\s+$)/g, "")
         todoText = todoText.replace(///^.*#{todoTags}[:;.,]\s*///, "")
         todoText = todoText.replace(///\s*#{commentEnd}\s*$///, "") if commentEnd
 
         allTodos.push [ln, idx, todoType, todoText]
 
-    # check each line of the buffer
+    # Check each line of the buffer
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
-    # sort by type then line
+    # Sort by type then line
     allTodos.sort (a,b) ->
       return (a[2] + a[0] > b[2] + b[0])
 
-    # save TODOs and show panel
+    # Save TODOs and show panel
     @toDoView.setTodos(allTodos)
     @modalPanel.show()
 
