@@ -41,6 +41,7 @@ class ToDoView
           todoText.textContent = "DONE:#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
 
       todoText.textContent = "#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
+      todo[2] = todo[2].replace(/^DONE\:/, "") unless todo[2] == 'DONE:'
 
       message.classList.add('todoItem')
       message.appendChild(todoText)
