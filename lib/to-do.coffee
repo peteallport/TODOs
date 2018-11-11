@@ -28,6 +28,11 @@ module.exports = ToDo =
     toDoViewState: @toDoView.serialize()
 
   toggle: ->
+    # close panel and exit if toggling it off
+    if @modalPanel.isVisible()
+      @modalPanel.hide()
+      return
+
     currentEditor = atom.workspace.getActiveTextEditor()
     currentScope = currentEditor.getRootScopeDescriptor().toString()
     todoTags = "(DONE:|)(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
@@ -67,16 +72,16 @@ module.exports = ToDo =
 
         allTodos.push [ln, idx, todoType, todoText]
 
+    # check each line of the buffer
     createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      # sort by type then line
-      allTodos.sort (a,b) ->
-        return (a[2] + a[0] > b[2] + b[0])
-      @toDoView.setTodos(allTodos)
-      @modalPanel.show()
+    # sort by type then line
+    allTodos.sort (a,b) ->
+      return (a[2] + a[0] > b[2] + b[0])
+
+    # save TODOs and show panel
+    @toDoView.setTodos(allTodos)
+    @modalPanel.show()
 
   saved: ->
     #console.log 'yo yo yo'
