@@ -33,30 +33,27 @@ module.exports = ToDo =
     todoTags = "(DONE:|)(TODO|FIXME|CHANGED|XXX|IDEA|HACK|NOTE|REVIEW|NB|BUG|QUESTION|COMBAK|TEMP|DEBUG|OPTIMIZE|WARNING)"
     allTodos = []
 
-    # declare opening and closing comment keywords
-    reComment = switch currentScope
-      when ".source.gfm", ".source.html", ".source.css", ".source.css.less"
-        ['<!--', '-->']
+    commentEnd = switch currentScope
+      when ".source.gfm", ".source.html", ".source.css", ".source.css.less", ".source.php", ".text.html.php"
+        '-->'
       when ".source.python", ".source.yaml"
-        ['(#|"""|\'\'\')', '(|"""|\'\'\')']
+        '(|"""|\'\'\')'
       when ".source.coffee"
-        ['(###|#)', '(###|)']
+        '###'
       when ".source.cpp", ".source.c", ".source.js", ".source.go"
-        ['(//|/\\*)', '(|\\*/)']
-      when ".source.haskell"
-        ['--', '']
-      when ".source.php", ".text.html.php"
-        ['(#|//|<!--)', '(|-->)']
-      when ".source.rust"
-        ['//', '']
-      when ".source.shell", ".source.ruby"
-        ['#', '']
+        '\\*/'
       else
-        ['.*', '.*']
+        ''
 
     createTodoList = (ln, todoText) ->
+      # Check if current line is not empty and is a comment
+      if not todoText
+        return
+      else if not currentEditor.isBufferRowCommented(ln-1)
+        return
+
       # Search for all possible TODOs tags
-      if ///^\s*#{reComment[0]}\s*#{todoTags}[:;.,]?.+#{reComment[1]}\s*$///.test(todoText)
+      if ///#{todoTags}[:;.,].+///.test(todoText)
         # get TODO index
         idx = todoText.search(///#{todoTags}///)
 
@@ -65,11 +62,8 @@ module.exports = ToDo =
 
         # strip and remove comment keywords
         todoText = todoText.replace(/(^\s+|\s+$)/g, "")
-        todoText = todoText.replace(///^#{reComment[0]}\s*///, "") unless reComment[0] == ".*"
-        todoText = todoText.replace(///\s*#{reComment[1]}$///, "") unless reComment[1] == ".*"
-
-        # get TODO text
-        todoText = todoText.replace(///\s*#{todoTags}[:;.,]?\s*///, "") unless reComment[0] == ".*"
+        todoText = todoText.replace(///^.*#{todoTags}[:;.,]\s*///, "")
+        todoText = todoText.replace(///\s*#{commentEnd}\s*$///, "") if commentEnd
 
         allTodos.push [ln, idx, todoType, todoText]
 
