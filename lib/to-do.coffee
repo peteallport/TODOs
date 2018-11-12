@@ -81,7 +81,7 @@ module.exports = ToDo =
 
     # Sort by type then line
     allTodos.sort (a,b) ->
-      return (a[2] + a[0] > b[2] + b[0])
+      return (a[2] > b[2])
 
     # Save TODOs and show panel
     @toDoView.setTodos(allTodos)
