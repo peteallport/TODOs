@@ -27,20 +27,21 @@ class ToDoView
     runList = (todo) ->
       message = document.createElement('div')
       todoText = document.createElement('span')
+      text = "#{todo[2]}: Line #{todo[0]+1}: #{todo[3]}"
 
       message.type = 'button'
       message.onclick = () ->
-        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]+todo[2].length+1])
+        currentEditor.setCursorBufferPosition([todo[0], todo[1]+todo[2].length+1])
       message.ondblclick = () ->
-        currentEditor.setCursorBufferPosition([todo[0]-1, todo[1]])
-        if currentEditor.getTextInBufferRange([[todo[0]-1, todo[1]], [todo[0]-1, todo[1]+5]]) == 'DONE:'
-          currentEditor.setTextInBufferRange([[todo[0]-1, todo[1]], [todo[0]-1, todo[1]+5]], '')
-          todoText.textContent = "#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
+        currentEditor.setCursorBufferPosition([todo[0], todo[1]])
+        if currentEditor.getTextInBufferRange([[todo[0], todo[1]], [todo[0], todo[1]+5]]) == 'DONE:'
+          currentEditor.setTextInBufferRange([[todo[0], todo[1]], [todo[0], todo[1]+5]], '')
+          todoText.textContent = text
         else
           currentEditor.insertText('DONE:')
-          todoText.textContent = "DONE:#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
+          todoText.textContent = "DONE:#{text}"
 
-      todoText.textContent = "#{todo[2]}: Line #{todo[0]}: #{todo[3]}"
+      todoText.textContent = text
       todo[2] = todo[2].replace(/^DONE\:/, "") unless todo[2] == 'DONE:'
 
       message.classList.add('todoItem')

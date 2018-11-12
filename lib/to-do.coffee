@@ -58,7 +58,7 @@ module.exports = ToDo =
       # Check if current line is not empty and is a comment
       if not todoText
         return
-      else if not currentEditor.isBufferRowCommented(ln-1)
+      else if not currentEditor.isBufferRowCommented(ln)
         return
 
       # Search for all possible TODOs tags
@@ -77,7 +77,7 @@ module.exports = ToDo =
         allTodos.push [ln, idx, todoType, todoText]
 
     # Check each line of the buffer
-    createTodoList(x+1, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
+    createTodoList(x, currentEditor.lineTextForBufferRow(x)) for x in [0..currentEditor.getLineCount()]
 
     # Sort by type then line
     allTodos.sort (a,b) ->
