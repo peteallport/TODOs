@@ -22,17 +22,31 @@ class ToDoView
     title.classList.add('title')
     @element.appendChild(title)
     master = document.createElement('div')
+    currentEditor = atom.workspace.getActiveTextEditor()
 
-    runList = (text) ->
+    runList = (todo) ->
       message = document.createElement('div')
-      textSpan = document.createElement('span')
-      # checkbox = document.createElement('input')
-      # checkbox.type = "checkbox"
-      textSpan.textContent = text   #textSpan.textContent = " " + text
+      todoText = document.createElement('span')
+      text = "#{todo[2]}: Line #{todo[0]+1}: #{todo[3]}"
+
+      message.type = 'button'
+      message.onclick = () ->
+        currentEditor.setCursorBufferPosition([todo[0], todo[1]+todo[2].length+1])
+      message.ondblclick = () ->
+        currentEditor.setCursorBufferPosition([todo[0], todo[1]])
+        if currentEditor.getTextInBufferRange([[todo[0], todo[1]], [todo[0], todo[1]+5]]) == 'DONE:'
+          currentEditor.setTextInBufferRange([[todo[0], todo[1]], [todo[0], todo[1]+5]], '')
+          todoText.textContent = text
+        else
+          currentEditor.insertText('DONE:')
+          todoText.textContent = "DONE:#{text}"
+
+      todoText.textContent = text
+      todo[2] = todo[2].replace(/^DONE\:/, "") unless todo[2] == 'DONE:'
+
       message.classList.add('todoItem')
-      #message.appendChild(checkbox)
-      message.appendChild(textSpan)
-      #console.log(master)
+      message.appendChild(todoText)
+
       master.appendChild(message)
 
     runList(x) for x in todoItem
